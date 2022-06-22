@@ -1,0 +1,8 @@
+{
+  "name": "MathProject",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "22a4610a"
+}
