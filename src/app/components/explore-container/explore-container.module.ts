@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ExploreContainerComponent } from '../components/explore-container/explore-container.component';
+import { ExploreContainerComponent } from './explore-container.component';
 import { KatexModule } from 'ng-katex';
 
 @NgModule({
