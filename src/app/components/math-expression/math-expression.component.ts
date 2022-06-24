@@ -10,18 +10,16 @@ import { SQRTElement } from 'src/app/model/Math/SQRTElement';
 })
 export class MathExpressionComponent implements OnInit {
 
-  expression : MathExpression
+  @Input() expression : MathExpression
 
   constructor() { }
 
- @Input() tmpAutoGenSQRT : boolean = false;
-
   ngOnInit() {
-    this.expression = new MathExpression();
-    if(this.tmpAutoGenSQRT){
-      console.log("added")
-      this.expression.elements.push(new SQRTElement());
-    }
+    
+  }
+
+  public extractSQRTExpression(element :MathExpressionElement):MathExpression{
+    return (element as SQRTElement).expression;
   }
 
   public isSQRT(element : MathExpressionElement):boolean{

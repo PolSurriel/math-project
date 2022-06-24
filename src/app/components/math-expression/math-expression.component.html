@@ -1,6 +1,6 @@
 <div class = "container">
   <div *ngFor="let element of expression.elements"  class="element">
       <ng-katex *ngIf="element.katex !== ''" [equation]="element.katex"></ng-katex>
-      <sqrt-expression *ngIf="isSQRT(element)"></sqrt-expression>
+      <sqrt-expression *ngIf="isSQRT(element)" [expression]="extractSQRTExpression(element)" ></sqrt-expression>
   </div>
 </div>

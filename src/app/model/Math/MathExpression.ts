@@ -1,5 +1,6 @@
 import { MathExpressionElement } from "./MathExpressionElement";
 import { Separator } from "./Separator";
+import { SQRTElement } from "./SQRTElement";
 
 export class MathExpression {
 
@@ -7,18 +8,50 @@ export class MathExpression {
 
     constructor(){
         this.elements = new Array<MathExpressionElement>();
-        
-        let tmp = ["a", "+", "b^2", "·", "c"];
+    }
+
+    public static getTestingMathExpression(): MathExpression{
+
+        let result = MathExpression.getTestingMathExpressionWithoutSQRT();
+        let op = new MathExpressionElement()
+        op.katex = "+"
+        result.elements.push(op)
+        result.elements.push(new Separator)
+
+        let sqrt = new SQRTElement()
+        sqrt.expression = new MathExpression();
+        let tmp = ["x", "+", "y^2"];
+        sqrt.expression.elements.push(new Separator());
         for (let i = 0; i < tmp.length; i++) {
             let toAdd = new MathExpressionElement();
             toAdd.katex = tmp[i];
-            this.elements.push(new Separator());
-            this.elements.push(toAdd);
-            this.elements.push(new Separator());
-            
+            sqrt.expression.elements.push(toAdd);
+            sqrt.expression.elements.push(new Separator());
         }
+
+        result.elements.push(new Separator())
+        result.elements.push(sqrt)
+        result.elements.push(new Separator())
+
+        return result;
 
     }
 
+    public static getTestingMathExpressionWithoutSQRT(): MathExpression{
+
+        let result = new MathExpression();
+
+        let tmp = ["a", "+", "b^2", "·", "c"];
+        result.elements.push(new Separator());
+        for (let i = 0; i < tmp.length; i++) {
+            let toAdd = new MathExpressionElement();
+            toAdd.katex = tmp[i];
+            result.elements.push(toAdd);
+            result.elements.push(new Separator());
+        }
+    
+        return result;
+
+    }
 
 }
