@@ -10,9 +10,10 @@ import { MathExpressionComponent } from './components/math-expression/math-expre
 import { AppComponent } from './app.component';
 import { SqrtExpressionComponent } from './components/sqrt-expression/sqrt-expression.component';
 
+import { FracExpressionComponent } from './components/frac-expression/frac-expression.component';
 
 @NgModule({
-  declarations: [AppComponent, MathExpressionComponent, SqrtExpressionComponent],
+  declarations: [AppComponent, MathExpressionComponent, SqrtExpressionComponent, FracExpressionComponent],
   imports: [BrowserModule, IonicModule.forRoot(), KatexModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

@@ -1,3 +1,4 @@
+import { FracElement } from "./FracElement";
 import { MathExpressionElement } from "./MathExpressionElement";
 import { Separator } from "./Separator";
 import { SQRTElement } from "./SQRTElement";
@@ -11,6 +12,21 @@ export class MathExpression {
     }
 
     public static getTestingMathExpression(): MathExpression{
+        let result = MathExpression.getTestingMathExpressionWithoutFrac();
+
+        let op = new MathExpressionElement()
+        op.katex = "+"
+        let frac = new FracElement();
+        frac.nominator = MathExpression.getTestingMathExpressionWithoutSQRT();
+        frac.denominator = MathExpression.getTestingMathExpressionWithoutSQRT();
+
+        result.elements.push(op)
+        result.elements.push(frac)
+
+        return result;
+    }
+
+    public static getTestingMathExpressionWithoutFrac(): MathExpression{
 
         let result = MathExpression.getTestingMathExpressionWithoutSQRT();
         let op = new MathExpressionElement()

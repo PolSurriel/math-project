@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { FracComponentComponent } from './frac-component.component';
+import { FracExpressionComponent } from './frac-expression.component';
 
-describe('FracComponentComponent', () => {
-  let component: FracComponentComponent;
-  let fixture: ComponentFixture<FracComponentComponent>;
+describe('FracExpressionComponent', () => {
+  let component: FracExpressionComponent;
+  let fixture: ComponentFixture<FracExpressionComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FracComponentComponent ]
+      declarations: [ FracExpressionComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FracComponentComponent);
+    fixture = TestBed.createComponent(FracExpressionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
