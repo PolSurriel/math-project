@@ -4,14 +4,16 @@ import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
-import { KatexModule } from 'ng-katex';
+import { KatexComponent, KatexModule } from 'ng-katex';
+import { MathExpressionComponent } from './components/math-expression/math-expression.component';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { SqrtExpressionComponent } from './components/sqrt-expression/sqrt-expression.component';
+
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, KatexModule],
+  declarations: [AppComponent, MathExpressionComponent, SqrtExpressionComponent],
+  imports: [BrowserModule, IonicModule.forRoot(), KatexModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
