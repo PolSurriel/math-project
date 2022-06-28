@@ -29,22 +29,25 @@ export class AppComponent {
         new MathExpressionElement('y^2'),
       ])),
       new Operation('+'),
-      new FracElement(
-        MathExpression.generateMathExpression([
-          new MathExpressionElement('a'),
-          new Operation('+'),
-          new MathExpressionElement('b^2'),
-          new Operation('·'),
-          new MathExpressionElement('c'),
-        ]),
-        MathExpression.generateMathExpression([
-          new MathExpressionElement('a'),
-          new Operation('+'),
-          new MathExpressionElement('b^2'),
-          new Operation('·'),
-          new MathExpressionElement('c'),
-        ])
-        )
+      new SQRTElement(MathExpression.generateMathExpression([
+        new FracElement(
+          MathExpression.generateMathExpression([
+            new MathExpressionElement('a'),
+            new Operation('+'),
+            new MathExpressionElement('b^2'),
+            new Operation('·'),
+            new MathExpressionElement('c'),
+          ]),
+          MathExpression.generateMathExpression([
+            new MathExpressionElement('a'),
+            new Operation('+'),
+            new MathExpressionElement('b^2'),
+            new Operation('·'),
+            new MathExpressionElement('c'),
+          ])
+        ),
+      ])
+    ),
     ]);
 
   }

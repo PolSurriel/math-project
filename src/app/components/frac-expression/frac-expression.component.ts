@@ -5,7 +5,7 @@ import { MathExpressionComponent } from '../math-expression/math-expression.comp
 @Component({
   selector: 'frac-expression',
   templateUrl: './frac-expression.component.html',
-  styleUrls: ['./frac-expression.component.css']
+  styleUrls: ['./frac-expression.component.scss']
 })
 export class FracExpressionComponent implements OnInit {
 

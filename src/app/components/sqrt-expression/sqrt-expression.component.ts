@@ -5,7 +5,7 @@ import { MathExpressionComponent } from '../math-expression/math-expression.comp
 @Component({
   selector: 'sqrt-expression',
   templateUrl: './sqrt-expression.component.html',
-  styleUrls: ['./sqrt-expression.component.css']
+  styleUrls: ['./sqrt-expression.component.scss']
 })
 export class SqrtExpressionComponent implements OnInit {
 

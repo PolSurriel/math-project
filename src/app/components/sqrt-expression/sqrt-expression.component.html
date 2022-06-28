@@ -1,3 +1,15 @@
-<div>
-  <math-expression [expression]="expression" [root]="root"></math-expression>
+<div class="container">
+  <!-- <ng-katex equation="\sqrt{}"></ng-katex> -->
+  <div class="sqrtleftcontainer">
+    <div class="sqrtleft"></div>
+  </div>
+  <div>
+  </div>
+  <div class ="sqrtrightcontainer">
+    <div class="sqrtright"></div>
+  </div>
+  
+  <div class="sqrt-content">
+    <math-expression [expression]="expression" [root]="root"></math-expression>
+  </div>
 </div>
