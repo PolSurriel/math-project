@@ -1,3 +1,5 @@
+import { MathExpression } from "./MathExpression";
+
 export class MathExpressionElement {
     
     protected grabbable : boolean = true;
@@ -7,6 +9,9 @@ export class MathExpressionElement {
 
     public left : MathExpressionElement;
     public right : MathExpressionElement;
+
+    public expressionContainer : MathExpression;
+    public root : MathExpression;
 
     private static lastHtmlIDNumber = 0;
     constructor(katex:string = ''){
