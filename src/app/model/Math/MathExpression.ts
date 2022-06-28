@@ -9,10 +9,48 @@ export class MathExpression {
     elements : Array<MathExpressionElement> = new Array<MathExpressionElement>();
     separators : Array<Separator> = new Array<Separator>();
 
+    left : MathExpressionElement;
+    right : MathExpressionElement;
+
     constructor(){
 
     }
     
+    public static linkElementsToExpression(expression:MathExpression, root:MathExpression): void{
+        let i = 0;
+        for(var element of expression.elements) {
+            element.root = root;
+            element.expression = expression;
+
+            if(element instanceof SQRTElement){
+                MathExpression.linkElementsToExpression((element as SQRTElement).expression, root); 
+                if(i!= 0){
+                    (element as SQRTElement).expression.left = expression.elements[i-1];
+                }
+                if(i != expression.elements.length-1){
+                    (element as SQRTElement).expression.right = expression.elements[i+1];
+                }
+                
+            }else if(element instanceof FracElement){
+                MathExpression.linkElementsToExpression((element as FracElement).nominator, root); 
+                MathExpression.linkElementsToExpression((element as FracElement).denominator, root); 
+                
+                if(i != 0){
+                    (element as FracElement).nominator.left = expression.elements[i-1];
+                    (element as FracElement).denominator.left = expression.elements[i-1];
+                }
+                if(i != expression.elements.length-1){
+                    (element as FracElement).nominator.right = expression.elements[i+1];
+                    (element as FracElement).denominator.right = expression.elements[i+1];
+                }
+            }
+
+            i++;
+            
+        }
+
+    }
+
     public static generateMathExpression(elements : Array<MathExpressionElement>) : MathExpression {
         let result : MathExpression = new MathExpression();
 
@@ -22,6 +60,9 @@ export class MathExpression {
         result.separators.push(last);
 
         for(var element of elements){
+            element.root = result;
+            element.expression = result;
+
             // add the item to the elements list
             result.elements.push(element);
 
@@ -60,6 +101,8 @@ export class MathExpression {
             }
 
         }
+
+         MathExpression.linkElementsToExpression(result, result);
 
         return result;
     }
