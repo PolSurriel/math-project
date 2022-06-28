@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
+import { FracElement } from './model/Math/FracElement';
 import { MathExpression } from './model/Math/MathExpression';
+import { MathExpressionElement } from './model/Math/MathExpressionElement';
+import { Operation } from './model/Math/Operation';
+import { SQRTElement } from './model/Math/SQRTElement';
+import { TestUtils } from './model/test/TestUtils';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +12,41 @@ import { MathExpression } from './model/Math/MathExpression';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor() {}
+  expression : MathExpression = TestUtils.getTestingMathExpression()
+  
+  constructor() {
 
-  expression : MathExpression = MathExpression.getTestingMathExpression()
+    this.expression = MathExpression.generateMathExpression([
+      new MathExpressionElement('a'),
+      new Operation('+'),
+      new MathExpressionElement('b^2'),
+      new Operation('·'),
+      new MathExpressionElement('c'),
+      new Operation('+'),
+      new SQRTElement(MathExpression.generateMathExpression([
+        new MathExpressionElement('x'),
+        new Operation('+'),
+        new MathExpressionElement('y^2'),
+      ])),
+      new Operation('+'),
+      new FracElement(
+        MathExpression.generateMathExpression([
+          new MathExpressionElement('a'),
+          new Operation('+'),
+          new MathExpressionElement('b^2'),
+          new Operation('·'),
+          new MathExpressionElement('c'),
+        ]),
+        MathExpression.generateMathExpression([
+          new MathExpressionElement('a'),
+          new Operation('+'),
+          new MathExpressionElement('b^2'),
+          new Operation('·'),
+          new MathExpressionElement('c'),
+        ])
+        )
+    ]);
+
+  }
+
 }

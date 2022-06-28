@@ -1,3 +1,4 @@
+import { TestUtils } from "../test/TestUtils";
 import { FracElement } from "./FracElement";
 import { MathExpressionElement } from "./MathExpressionElement";
 import { Separator } from "./Separator";
@@ -5,69 +6,62 @@ import { SQRTElement } from "./SQRTElement";
 
 export class MathExpression {
 
-    elements : Array<MathExpressionElement>;
+    elements : Array<MathExpressionElement> = new Array<MathExpressionElement>();
+    separators : Array<Separator> = new Array<Separator>();
 
     constructor(){
-        this.elements = new Array<MathExpressionElement>();
-    }
-
-    public static getTestingMathExpression(): MathExpression{
-        let result = MathExpression.getTestingMathExpressionWithoutFrac();
-
-        let op = new MathExpressionElement()
-        op.katex = "+"
-        let frac = new FracElement();
-        frac.nominator = MathExpression.getTestingMathExpressionWithoutSQRT();
-        frac.denominator = MathExpression.getTestingMathExpressionWithoutSQRT();
-
-        result.elements.push(op)
-        result.elements.push(frac)
-
-        return result;
-    }
-
-    public static getTestingMathExpressionWithoutFrac(): MathExpression{
-
-        let result = MathExpression.getTestingMathExpressionWithoutSQRT();
-        let op = new MathExpressionElement()
-        op.katex = "+"
-        result.elements.push(op)
-        result.elements.push(new Separator)
-
-        let sqrt = new SQRTElement()
-        sqrt.expression = new MathExpression();
-        let tmp = ["x", "+", "y^2"];
-        sqrt.expression.elements.push(new Separator());
-        for (let i = 0; i < tmp.length; i++) {
-            let toAdd = new MathExpressionElement();
-            toAdd.katex = tmp[i];
-            sqrt.expression.elements.push(toAdd);
-            sqrt.expression.elements.push(new Separator());
-        }
-
-        result.elements.push(new Separator())
-        result.elements.push(sqrt)
-        result.elements.push(new Separator())
-
-        return result;
 
     }
-
-    public static getTestingMathExpressionWithoutSQRT(): MathExpression{
-
-        let result = new MathExpression();
-
-        let tmp = ["a", "+", "b^2", "·", "c"];
-        result.elements.push(new Separator());
-        for (let i = 0; i < tmp.length; i++) {
-            let toAdd = new MathExpressionElement();
-            toAdd.katex = tmp[i];
-            result.elements.push(toAdd);
-            result.elements.push(new Separator());
-        }
     
-        return result;
+    public static generateMathExpression(elements : Array<MathExpressionElement>) : MathExpression {
+        let result : MathExpression = new MathExpression();
 
+        
+        var last = new Separator();
+        result.elements.push(last);
+        result.separators.push(last);
+
+        for(var element of elements){
+            // add the item to the elements list
+            result.elements.push(element);
+
+            // connect with last
+            last.right = element;
+            element.left = last;
+
+            // create a separator to element's right side
+            let sep = new Separator();
+
+            // connect the separator with the element
+            element.right = sep;
+            sep.left = element;
+
+            // add the separator element
+            result.elements.push(sep);
+            result.separators.push(sep);
+
+            // set separator as last
+            last = sep;
+
+            if(element instanceof SQRTElement){
+                for(var sqrtsep of (element as SQRTElement).expression.separators){
+                    result.separators.push(sqrtsep);
+                }
+            }
+
+            if(element instanceof FracElement){
+                for(var fracsep of (element as FracElement).nominator.separators){
+                    result.separators.push(fracsep);
+                }
+
+                for(var fracsep of (element as FracElement).denominator.separators){
+                    result.separators.push(fracsep);
+                }
+            }
+
+        }
+
+        return result;
     }
 
 }

@@ -7,9 +7,9 @@ export class SQRTElement extends MathExpressionElement{
 
     isSQRT : boolean = true;
 
-    constructor(){
+    constructor(expression : MathExpression = null){
         super();
-        this.expression = new MathExpression();
+        this.expression = expression;
     }
 
 }

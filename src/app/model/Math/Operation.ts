@@ -2,8 +2,8 @@ import { MathExpressionElement } from "./MathExpressionElement";
 
 export class Operation extends MathExpressionElement {
     
-    constructor(){
-        super();
+    constructor(katex:string = ''){
+        super(katex);
         this.grabbable = false;
     }
 
