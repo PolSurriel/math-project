@@ -3,6 +3,7 @@ import { MathExpression } from 'src/app/model/Math/MathExpression';
 import { MathExpressionElement } from 'src/app/model/Math/MathExpressionElement';
 import { MathExpressionInputHandler } from 'src/app/model/Math/MathExpressionInputHandler';
 import { Operation } from 'src/app/model/Math/Operation';
+import { ParenthesisElement } from 'src/app/model/Math/ParenthesisElement';
 import { Separator } from 'src/app/model/Math/Separator';
 import { SQRTElement } from 'src/app/model/Math/SQRTElement';
 import { FracElement } from '../../model/Math/FracElement';
@@ -48,8 +49,16 @@ export class MathExpressionComponent implements OnInit {
     return (element as SQRTElement).expression;
   }
 
+  public extractParenthesisExpression(element :MathExpressionElement):MathExpression{
+    return (element as ParenthesisElement).expression;
+  }
+
   public isSQRT(element : MathExpressionElement):boolean{
     return element instanceof SQRTElement; 
+  }
+
+  public isParenthesis(element : MathExpressionElement):boolean{
+    return element instanceof ParenthesisElement; 
   }
 
   public extractFracNominator(element :MathExpressionElement):MathExpression{

@@ -1,6 +1,7 @@
 import { TestUtils } from "../test/TestUtils";
 import { FracElement } from "./FracElement";
 import { MathExpressionElement } from "./MathExpressionElement";
+import { ParenthesisElement } from "./ParenthesisElement";
 import { Separator } from "./Separator";
 import { SQRTElement } from "./SQRTElement";
 
@@ -22,7 +23,17 @@ export class MathExpression {
             element.root = root;
             element.expressionContainer = expression;
 
-            if(element instanceof SQRTElement){
+
+            if(element instanceof ParenthesisElement){
+                MathExpression.linkElementsToExpression((element as ParenthesisElement).expression, root); 
+                if(i!= 0){
+                    (element as ParenthesisElement).expression.left = expression.elements[i-1];
+                }
+                if(i != expression.elements.length-1){
+                    (element as ParenthesisElement).expression.right = expression.elements[i+1];
+                }
+                
+            } else if(element instanceof SQRTElement){
                 MathExpression.linkElementsToExpression((element as SQRTElement).expression, root); 
                 if(i!= 0){
                     (element as SQRTElement).expression.left = expression.elements[i-1];
@@ -81,13 +92,19 @@ export class MathExpression {
             // set separator as last
             last = sep;
 
-            if(element instanceof SQRTElement){
+            if(element instanceof ParenthesisElement){
+                for(var sqrtsep of (element as ParenthesisElement).expression.separators){
+                    result.separators.push(sqrtsep);
+                }
+            }
+
+            else if(element instanceof SQRTElement){
                 for(var sqrtsep of (element as SQRTElement).expression.separators){
                     result.separators.push(sqrtsep);
                 }
             }
 
-            if(element instanceof FracElement){
+            else if(element instanceof FracElement){
                 for(var fracsep of (element as FracElement).nominator.separators){
                     result.separators.push(fracsep);
                 }

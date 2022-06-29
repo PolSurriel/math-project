@@ -3,6 +3,7 @@ import { FracElement } from './model/Math/FracElement';
 import { MathExpression } from './model/Math/MathExpression';
 import { MathExpressionElement } from './model/Math/MathExpressionElement';
 import { Operation } from './model/Math/Operation';
+import { ParenthesisElement } from './model/Math/ParenthesisElement';
 import { SQRTElement } from './model/Math/SQRTElement';
 import { TestUtils } from './model/test/TestUtils';
 
@@ -21,12 +22,15 @@ export class AppComponent {
       new Operation('+'),
       new MathExpressionElement('b^2'),
       new Operation('·'),
-      new MathExpressionElement('c'),
-      new Operation('+'),
-      new SQRTElement(MathExpression.generateMathExpression([
-        new MathExpressionElement('x'),
+      new ParenthesisElement(MathExpression.generateMathExpression([
+
+        new MathExpressionElement('c'),
         new Operation('+'),
-        new MathExpressionElement('y^2'),
+        new SQRTElement(MathExpression.generateMathExpression([
+          new MathExpressionElement('x'),
+          new Operation('+'),
+          new MathExpressionElement('y^2'),
+        ])),
       ])),
       new Operation('+'),
       new SQRTElement(MathExpression.generateMathExpression([
