@@ -26,8 +26,12 @@ export class MathExpressionComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    if(this.isRoot)
+    if(this.isRoot){
       this.root = this;
+
+    }else {
+      this.input = this.root.input;
+    }
 
   }
 
@@ -71,38 +75,40 @@ export class MathExpressionComponent implements OnInit {
 
     if(!element.isGrabbable)
       return;
-      
-    this.freespaceContainer.nativeElement.innerHTML = htmlElement.innerHTML;
+    
+    
+    this.root.freespaceContainer.nativeElement.innerHTML = htmlElement.innerHTML;
     htmlElement.style.opacity = '0.5'
-    this.input.draggedElement = htmlElement
-    this.input.draggedMathElement = element
-    this.input.draggingElement = true
+    this.root.input.draggedElement = htmlElement
+    this.root.input.draggedMathElement = element
+    this.root.input.draggingElement = true
     this.updateFreeContainerPosition();
   }
-
+  
   public onReleased(){
-    if(this.input.draggingElement){
+    if(this.root.input.draggingElement){
       this.cleanDragSeparator();
-      this.input.draggedElement.style.opacity = '1';
-      this.freespaceContainer.nativeElement.innerHTML = ''
-      this.input.draggingElement = false;
+      this.root.input.draggedElement.style.opacity = '1';
+      this.root.freespaceContainer.nativeElement.innerHTML = ''
+      this.root.input.draggingElement = false;
     }
 
   }
   
   private updateFreeContainerPosition(){
-    this.freespaceContainer.nativeElement.style.left = (this.input.x - this.input.deltaToClickedElement.x)+'px';
-    this.freespaceContainer.nativeElement.style.top = (this.input.y- this.input.deltaToClickedElement.y)+'px';    
+
+    this.root.freespaceContainer.nativeElement.style.left = (this.root.input.x - this.root.input.deltaToClickedElement.x)+'px';
+    this.root.freespaceContainer.nativeElement.style.top = (this.root.input.y- this.root.input.deltaToClickedElement.y)+'px';    
   }
 
   private getElementPos(element:HTMLElement){
     var elementBounds = element.getBoundingClientRect();
-    return {x: elementBounds.left, y:elementBounds.top};
+    return {x: elementBounds.left + elementBounds.width*0.5, y:elementBounds.top + elementBounds.height*0.5};
   }
 
   private inputDistTo(p1){
-    let xdist = p1.x - this.input.x;
-    let ydist = p1.y - this.input.y;
+    let xdist = p1.x - this.root.input.x;
+    let ydist = p1.y - this.root.input.y;
     let dist = Math.sqrt(xdist*xdist + ydist*ydist);
     return dist;
   }
@@ -114,7 +120,7 @@ export class MathExpressionComponent implements OnInit {
     for (var sep of this.expression.separators) {
       sep.htmlElement.style.width = "0px";
       let pos = this.getElementPos(sep.htmlElement);
-      let dist = this.inputDistTo(pos);
+      let dist = this.root.inputDistTo(pos);
 
       if(dist < closestDist && dist < this.separatorMinDist){
         closest = sep;
@@ -146,12 +152,12 @@ export class MathExpressionComponent implements OnInit {
       return;
     }
     
-    sep.htmlElement.style.width = (this.input.draggedElement.getBoundingClientRect().width + 20)+"px";
+    sep.htmlElement.style.width = (this.root.input.draggedElement.getBoundingClientRect().width + 20)+"px";
     if(sep.left instanceof Operation || sep.left === null || sep.left === undefined){
-      sep.katex = this.input.draggedMathElement.katex+ "+";
+      sep.katex = this.root.input.draggedMathElement.katex+ "+";
 
     }else {
-      sep.katex = "+" + this.input.draggedMathElement.katex;
+      sep.katex = "+" + this.root.input.draggedMathElement.katex;
 
     }
     
@@ -162,7 +168,7 @@ export class MathExpressionComponent implements OnInit {
   }
 
   public onInputMoves(){
-    if(this.input.draggingElement){
+    if(this.root.input.draggingElement){
       this.updateFreeContainerPosition();
       this.updateClosesSeparator();
     }
@@ -171,41 +177,41 @@ export class MathExpressionComponent implements OnInit {
 
 
   public onPressedEventHandler(event, element) : void{
-    if(this.input.pressed === true || this.input.ignoreMouseDown && event instanceof MouseEvent)
+    if(this.root.input.pressed === true || this.root.input.ignoreMouseDown && event instanceof MouseEvent)
       return;
 
     if(event instanceof TouchEvent){
-      this.input.ignoreMouseDown = true
+      this.root.input.ignoreMouseDown = true
     }
-    this.input.pressed = true;
+    this.root.input.pressed = true;
     
     var elementBounds = event.currentTarget.parentElement.getBoundingClientRect();
 
     if(event instanceof MouseEvent){
-      this.input.x = event.clientX;
-      this.input.y = event.clientY;
+      this.root.input.x = event.clientX;
+      this.root.input.y = event.clientY;
       
     }else {
-      this.input.x = event.touches[0].clientX;
-      this.input.y = event.touches[0].clientY;
+      this.root.input.x = event.touches[0].clientX;
+      this.root.input.y = event.touches[0].clientY;
     }
 
-    this.input.deltaToClickedElement.x = this.input.x - elementBounds.left;
-    this.input.deltaToClickedElement.y = this.input.y - elementBounds.top;
+    this.root.input.deltaToClickedElement.x = this.root.input.x - elementBounds.left;
+    this.root.input.deltaToClickedElement.y = this.root.input.y - elementBounds.top;
     this.onPressed(element, event.currentTarget.parentElement)
   }
   
 
   @HostListener('document:mouseup', ['$event'])
-  globalOnMouseUp(event) { this.input.globalOnMouseUp(event) }
+  globalOnMouseUp(event) { this.root.input.globalOnMouseUp(event) }
   
   @HostListener('document:touchend', ['$event'])
-  globalOnTouchEnd(event) { this.input.globalOnTouchEnd(event) }
+  globalOnTouchEnd(event) { this.root.input.globalOnTouchEnd(event) }
 
   @HostListener('document:mousemove', ['$event'])
-  globalOnMouseMove(event) { this.input.globalOnMouseMove(event) }
+  globalOnMouseMove(event) { this.root.input.globalOnMouseMove(event) }
   
   @HostListener('document:touchmove', ['$event'])
-  globalOnTouchMove(event) { this.input.globalOnTouchMove(event) }
+  globalOnTouchMove(event) { this.root.input.globalOnTouchMove(event) }
 
 }
