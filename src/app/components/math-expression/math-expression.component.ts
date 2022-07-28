@@ -4,6 +4,7 @@ import { MathExpressionElement } from 'src/app/model/Math/MathExpressionElement'
 import { MathExpressionInputHandler } from 'src/app/model/Math/MathExpressionInputHandler';
 import { Operation } from 'src/app/model/Math/Operation';
 import { ParenthesisElement } from 'src/app/model/Math/ParenthesisElement';
+import { PowerElement } from 'src/app/model/Math/PowerElement';
 import { Separator } from 'src/app/model/Math/Separator';
 import { SQRTElement } from 'src/app/model/Math/SQRTElement';
 import { FracElement } from '../../model/Math/FracElement';
@@ -77,6 +78,17 @@ export class MathExpressionComponent implements OnInit {
     return element instanceof Separator;
   }
 
+  public castElementToFrac(element) : FracElement{
+    return element as FracElement;
+  }
+
+  public castElementToParenthesis(element) : ParenthesisElement{
+    return element as ParenthesisElement;
+  }
+
+  public castElementToSQRT(element) : SQRTElement{
+    return element as SQRTElement;
+  }
 
   // INPUT AND EVENTS
 
@@ -85,11 +97,20 @@ export class MathExpressionComponent implements OnInit {
     if(!element.isGrabbable)
       return;
     
-    
-    this.root.freespaceContainer.nativeElement.innerHTML = htmlElement.innerHTML;
-    htmlElement.style.opacity = '0.5'
-    this.root.input.draggedElement = htmlElement
-    this.root.input.draggedMathElement = element
+
+    if(element.expressionContainer.context instanceof PowerElement){
+      this.root.input.draggedElement = htmlElement.parentElement.parentElement.parentElement.parentElement
+      this.root.input.draggedMathElement = element.expressionContainer.context
+
+    }else {
+      this.root.input.draggedElement = htmlElement
+      this.root.input.draggedMathElement = element
+
+    }
+    this.root.input.draggedElement.style.opacity = '0.5'
+    this.root.freespaceContainer.nativeElement.innerHTML = this.root.input.draggedElement.innerHTML;
+
+
     this.root.input.draggingElement = true
     this.updateFreeContainerPosition();
   }
@@ -127,13 +148,14 @@ export class MathExpressionComponent implements OnInit {
     let closest : Separator = null;
     let closestDist : number = Number.MAX_VALUE;
     for (var sep of this.expression.separators) {
-      sep.htmlElement.style.width = "0px";
       let pos = this.getElementPos(sep.htmlElement);
       let dist = this.root.inputDistTo(pos);
-
+      sep.htmlElement.style.width = '0px';
       if(dist < closestDist && dist < this.separatorMinDist){
-        closest = sep;
-        closestDist = dist;
+        if(sep.elementCanBeDraggedIn(this.root.input.draggedMathElement, this.root.input.draggedElement)){
+          closest = sep;
+          closestDist = dist;
+        }
       }
     }
 
@@ -142,13 +164,24 @@ export class MathExpressionComponent implements OnInit {
 
 
  
+  isPower(element : MathExpressionElement):boolean{
+    return element instanceof PowerElement;
+  }
+
+  extractPowerExpression(element : MathExpressionElement): MathExpression {
+    return (element as PowerElement).expression;
+  }
+
+  extractPower(element : MathExpressionElement): PowerElement {
+    return (element as PowerElement)
+  }
+
   
   private separatorMinDist : number = 30; 
 
   private cleanDragSeparator(){
     if(this.lastClosestSeparator){
-      this.lastClosestSeparator.htmlElement.style.width = "0px";
-      this.lastClosestSeparator.katex = '';
+      this.lastClosestSeparator.onElementDraggedOverOut();
     }
   }
 
@@ -161,14 +194,8 @@ export class MathExpressionComponent implements OnInit {
       return;
     }
     
-    sep.htmlElement.style.width = (this.root.input.draggedElement.getBoundingClientRect().width + 20)+"px";
-    if(sep.left instanceof Operation || sep.left === null || sep.left === undefined){
-      sep.katex = this.root.input.draggedMathElement.katex+ "+";
+    sep.onElementDraggedOver(this.root.input.draggedMathElement, this.root.freespaceContainer.nativeElement);
 
-    }else {
-      sep.katex = "+" + this.root.input.draggedMathElement.katex;
-
-    }
     
     if(sep != this.lastClosestSeparator && this.lastClosestSeparator){
       this.cleanDragSeparator();
@@ -186,8 +213,15 @@ export class MathExpressionComponent implements OnInit {
 
 
   public onPressedEventHandler(event, element) : void{
-    if(this.root.input.pressed === true || this.root.input.ignoreMouseDown && event instanceof MouseEvent)
+
+
+    if(this.root.input.pressed === true || this.root.input.ignoreMouseDown && event instanceof MouseEvent){
+      if(this.root.input.ignoreMouseDown && event instanceof MouseEvent){
+        this.root.input.ignoreMouseDown = false
+
+      }
       return;
+    }
 
     if(event instanceof TouchEvent){
       this.root.input.ignoreMouseDown = true
@@ -207,7 +241,7 @@ export class MathExpressionComponent implements OnInit {
 
     this.root.input.deltaToClickedElement.x = this.root.input.x - elementBounds.left;
     this.root.input.deltaToClickedElement.y = this.root.input.y - elementBounds.top;
-    this.onPressed(element, event.currentTarget.parentElement)
+    this.onPressed(element, event.currentTarget.parentElement);
   }
   
 
@@ -221,6 +255,6 @@ export class MathExpressionComponent implements OnInit {
   globalOnMouseMove(event) { this.root.input.globalOnMouseMove(event) }
   
   @HostListener('document:touchmove', ['$event'])
-  globalOnTouchMove(event) { this.root.input.globalOnTouchMove(event) }
+  globalOnTouchMove(event) { event.preventDefault(); event.stopPropagation(); this.root.input.globalOnTouchMove(event) }
 
 }

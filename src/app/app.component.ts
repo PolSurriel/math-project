@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import { FracElement } from './model/Math/FracElement';
 import { MathExpression } from './model/Math/MathExpression';
+import { MathExpressionContext } from './model/Math/MathExpressionContext.enum';
 import { MathExpressionElement } from './model/Math/MathExpressionElement';
 import { Operation } from './model/Math/Operation';
 import { ParenthesisElement } from './model/Math/ParenthesisElement';
+import { PowerElement } from './model/Math/PowerElement';
 import { SQRTElement } from './model/Math/SQRTElement';
 import { TestUtils } from './model/test/TestUtils';
+
 
 @Component({
   selector: 'app-root',
@@ -20,7 +23,15 @@ export class AppComponent {
     this.expression = MathExpression.generateMathExpression([
       new MathExpressionElement('a'),
       new Operation('+'),
-      new MathExpressionElement('b^2'),
+      new PowerElement(
+        MathExpression.generateMathExpression([new MathExpressionElement('b')]),
+        MathExpression.generateMathExpression([
+          new PowerElement(
+            MathExpression.generateMathExpression([new MathExpressionElement('2')]),
+            MathExpression.generateMathExpression([new MathExpressionElement('4')]),
+          )
+        ])
+      ),
       new Operation('·'),
       new ParenthesisElement(MathExpression.generateMathExpression([
 
@@ -53,6 +64,8 @@ export class AppComponent {
       ])
     ),
     ]);
+
+    this.expression.context = MathExpressionContext.FREE;
 
   }
 

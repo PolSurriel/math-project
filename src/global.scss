@@ -15,6 +15,28 @@ ng-katex{
     user-select: none;
 }
 
+*{
+    touch-action: none;
+}
+
+.exponent{
+    font-size: 11px;
+    margin-top: -4px;
+}
+
+.exponent .exponent{
+    font-size: 9px;
+}
+
+.exponent .exponent .exponent{
+    font-size: 7px;
+}
+
+.exponent .exponent .exponent .exponent{
+    font-size: 5px;
+}
+
+
 /* Core CSS required for Ionic components to work properly */
 @import "~@ionic/angular/css/core.css";
 

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FracElement } from 'src/app/model/Math/FracElement';
 import { MathExpression } from '../../model/Math/MathExpression';
 import { MathExpressionComponent } from '../math-expression/math-expression.component';
 
@@ -9,6 +10,8 @@ import { MathExpressionComponent } from '../math-expression/math-expression.comp
 })
 export class FracExpressionComponent implements OnInit {
 
+
+  @Input() fracElement : FracElement
   @Input() nominator : MathExpression
   @Input() denominator : MathExpression
   @Input() root : MathExpressionComponent;

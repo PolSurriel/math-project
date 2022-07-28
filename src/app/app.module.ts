@@ -14,8 +14,11 @@ import { FracExpressionComponent } from './components/frac-expression/frac-expre
 
 import { ParenthesisExpressionComponent } from './components/parenthesis-expression/parenthesis-expression.component';
 
+import { PowerExpressionComponent } from './components/power-expression/power-expression.component';
+
+
 @NgModule({
-  declarations: [AppComponent, MathExpressionComponent, SqrtExpressionComponent, FracExpressionComponent, ParenthesisExpressionComponent],
+  declarations: [AppComponent, MathExpressionComponent, SqrtExpressionComponent, FracExpressionComponent, ParenthesisExpressionComponent, PowerExpressionComponent],
   imports: [BrowserModule, IonicModule.forRoot(), KatexModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

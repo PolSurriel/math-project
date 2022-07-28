@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MathExpression } from 'src/app/model/Math/MathExpression';
+import { ParenthesisElement } from 'src/app/model/Math/ParenthesisElement';
 import { MathExpressionComponent } from '../math-expression/math-expression.component';
 
 @Component({
@@ -9,9 +10,8 @@ import { MathExpressionComponent } from '../math-expression/math-expression.comp
 })
 export class ParenthesisExpressionComponent implements OnInit {
 
-  @Input() expression : MathExpression;
+  @Input() parentElement : ParenthesisElement;
   @Input() root : MathExpressionComponent;
-
 
   constructor() { }
 

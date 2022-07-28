@@ -1,15 +1,15 @@
-<div class="container">
-  <!-- <ng-katex equation="\sqrt{}"></ng-katex> -->
-  <div class="sqrtleftcontainer">
-    <div class="sqrtleft"></div>
-  </div>
-  <div>
-  </div>
-  <div class ="sqrtrightcontainer">
-    <div class="sqrtright"></div>
+<div 
+class="container" #rootElement
+(mousedown)="root.onPressedEventHandler($event, sqrtElement)"
+(touchstart)="root.onPressedEventHandler($event, sqrtElement)"
+>
+
+  <div class="container" >
+    <div class="sqrtleftcontainer"><div class="sqrtleft"></div></div>
+    <div class ="sqrtrightcontainer"><div class="sqrtright"></div></div>
   </div>
   
   <div class="sqrt-content">
-    <math-expression [expression]="expression" [root]="root"></math-expression>
+    <math-expression [expression]="sqrtElement.expression" [root]="root"></math-expression>
   </div>
 </div>

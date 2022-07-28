@@ -1,11 +1,16 @@
 import { TestUtils } from "../test/TestUtils";
 import { FracElement } from "./FracElement";
+import { MathExpressionContext } from "./MathExpressionContext.enum";
 import { MathExpressionElement } from "./MathExpressionElement";
 import { ParenthesisElement } from "./ParenthesisElement";
+import { PowerElement } from "./PowerElement";
 import { Separator } from "./Separator";
 import { SQRTElement } from "./SQRTElement";
 
+
 export class MathExpression {
+
+    context : MathExpressionContext | MathExpressionElement
 
     elements : Array<MathExpressionElement> = new Array<MathExpressionElement>();
     separators : Array<Separator> = new Array<Separator>();
