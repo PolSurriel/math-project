@@ -26,9 +26,19 @@ export class MathExpression {
         let i = 0;
         for(var element of expression.elements) {
             element.root = root;
-            element.expression = expression;
+            element.expressionContainer = expression;
 
-            if(element instanceof SQRTElement){
+
+            if(element instanceof ParenthesisElement){
+                MathExpression.linkElementsToExpression((element as ParenthesisElement).expression, root); 
+                if(i!= 0){
+                    (element as ParenthesisElement).expression.left = expression.elements[i-1];
+                }
+                if(i != expression.elements.length-1){
+                    (element as ParenthesisElement).expression.right = expression.elements[i+1];
+                }
+                
+            } else if(element instanceof SQRTElement){
                 MathExpression.linkElementsToExpression((element as SQRTElement).expression, root); 
                 if(i!= 0){
                     (element as SQRTElement).expression.left = expression.elements[i-1];
@@ -66,9 +76,6 @@ export class MathExpression {
         result.separators.push(last);
 
         for(var element of elements){
-            element.root = result;
-            element.expression = result;
-
             // add the item to the elements list
             result.elements.push(element);
 
@@ -114,7 +121,7 @@ export class MathExpression {
 
         }
 
-         MathExpression.linkElementsToExpression(result, result);
+        MathExpression.linkElementsToExpression(result, result);
 
         return result;
     }

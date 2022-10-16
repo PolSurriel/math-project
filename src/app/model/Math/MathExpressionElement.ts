@@ -10,7 +10,7 @@ export class MathExpressionElement {
     public left : MathExpressionElement;
     public right : MathExpressionElement;
 
-    public expression : MathExpression;
+    public expressionContainer : MathExpression;
     public root : MathExpression;
 
     private static lastHtmlIDNumber = 0;
