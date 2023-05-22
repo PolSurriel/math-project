@@ -212,7 +212,9 @@ export class MathExpressionComponent implements OnInit {
   }
 
 
-  public onPressedEventHandler(event, element) : void{
+  public onPressedEventHandler(event, element, selectedHTMLElement = null) : void{
+
+    let target = selectedHTMLElement ? selectedHTMLElement : event.currentTarget;
 
 
     if(this.root.input.pressed === true || this.root.input.ignoreMouseDown && event instanceof MouseEvent){
@@ -228,7 +230,7 @@ export class MathExpressionComponent implements OnInit {
     }
     this.root.input.pressed = true;
     
-    var elementBounds = event.currentTarget.parentElement.getBoundingClientRect();
+    var elementBounds = target.parentElement.getBoundingClientRect();
 
     if(event instanceof MouseEvent){
       this.root.input.x = event.clientX;
@@ -241,7 +243,7 @@ export class MathExpressionComponent implements OnInit {
 
     this.root.input.deltaToClickedElement.x = this.root.input.x - elementBounds.left;
     this.root.input.deltaToClickedElement.y = this.root.input.y - elementBounds.top;
-    this.onPressed(element, event.currentTarget.parentElement);
+    this.onPressed(element, target.parentElement);
   }
   
 

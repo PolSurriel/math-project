@@ -29,3 +29,37 @@ Give a ⭐️ if this project helped you!
 
 ***
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
+
+## Cómo ejecutar el proyecto
+
+Sigue estos pasos para ejecutar este proyecto en tu entorno local.
+
+### Prerequisitos
+
+Asegúrate de tener Node.js y npm instalados en tu sistema. Si no los tienes, puedes descargarlos desde [aquí](https://nodejs.org/).
+
+### Pasos para ejecutar el proyecto
+
+1. **Navega hasta el directorio del proyecto.**
+
+Abre una terminal y cambia al directorio donde está alojado tu proyecto.
+
+2. **Instala las dependencias del proyecto.**
+
+Una vez que estés en el directorio del proyecto, ejecuta el siguiente comando para instalar todas las dependencias del proyecto:
+
+```bash
+npm install
+
+```
+Si no tienes ionic instalado:
+```bash
+npm install -g @ionic/cli
+
+```
+
+Para ejecutar la aplicación:
+```bash
+ionic serve
+
+```

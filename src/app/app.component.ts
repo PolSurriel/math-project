@@ -21,6 +21,23 @@ export class AppComponent {
   constructor() {
 
     this.expression = MathExpression.generateMathExpression([
+      new FracElement(
+        MathExpression.generateMathExpression([
+          new MathExpressionElement('a'),
+          new Operation('+'),
+          new MathExpressionElement('b^2'),
+          new Operation('·'),
+          new MathExpressionElement('c'),
+        ]),
+        MathExpression.generateMathExpression([
+          new MathExpressionElement('a'),
+          new Operation('+'),
+          new MathExpressionElement('b^2'),
+          new Operation('·'),
+          new MathExpressionElement('c'),
+        ])
+      ),
+      new Operation('+'),
       new MathExpressionElement('a'),
       new Operation('+'),
       new PowerElement(
@@ -34,7 +51,6 @@ export class AppComponent {
       ),
       new Operation('·'),
       new ParenthesisElement(MathExpression.generateMathExpression([
-
         new MathExpressionElement('c'),
         new Operation('+'),
         new SQRTElement(MathExpression.generateMathExpression([

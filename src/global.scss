@@ -36,6 +36,9 @@ ng-katex{
     font-size: 5px;
 }
 
+*{
+    user-select: none;   
+}
 
 /* Core CSS required for Ionic components to work properly */
 @import "~@ionic/angular/css/core.css";
